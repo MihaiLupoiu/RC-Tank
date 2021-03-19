@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "freertos.h": "c",
+        "sdkconfig.h": "c",
+        "mcpwm.h": "c",
+        "mcpwm_periph.h": "c",
+        "mcpwm_struct.h": "c",
+        "mcpwm_reg.h": "c"
+    }
+}
