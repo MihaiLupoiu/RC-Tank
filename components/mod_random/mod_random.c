@@ -18,7 +18,7 @@ static mod_random_ctx_t *ctx;
 static void random_task() {
 	ps_msg_t *msg = NULL;
 	while (true) {
-		ESP_LOGI(MOD_RANDOM_NAME, "checking msg");
+		ESP_LOGD(MOD_RANDOM_NAME, "checking msg");
 		msg = ps_get(ctx->sub, 500);
 		if (msg == NULL) {
 			continue;
@@ -27,7 +27,7 @@ static void random_task() {
 		if (ps_has_topic_prefix(msg, MOD_RANDOM_NAME ".cmd.")) {
 			if (ps_has_topic(msg, MOD_RANDOM_NAME ".cmd.get.int")) {
 				uint32_t val = esp_random();
-				ESP_LOGI(MOD_RANDOM_NAME, "request from %s for random int. Value: %u", msg->topic, val);
+				ESP_LOGD(MOD_RANDOM_NAME, "request from %s for random int. Value: %u", msg->topic, val);
 				PUB_INT(msg->rtopic, val);
 			}
 		}
