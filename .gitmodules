@@ -1,0 +1,3 @@
+[submodule "submodules/pubsub-c"]
+	path = submodules/pubsub-c
+	url = https://github.com/jaracil/pubsub-c

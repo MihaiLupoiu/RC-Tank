@@ -4,6 +4,7 @@
             "name": "Mac-esp-idf",
             "includePath": [
                 "${workspaceFolder}/**",
+                "${workspaceFolder}/components/**",
                 "/Users/mihai/code/esp/esp-idf/components/**"
             ],
             "defines": [],
@@ -18,6 +19,7 @@
             "browse": {
                 "path": [
                     "${workspaceFolder}/**",
+                    "${workspaceFolder}/components/**",
                     "${IDF_PATH}/components/**"
                 ],
                 "limitSymbolsToIncludedHeaders": true
