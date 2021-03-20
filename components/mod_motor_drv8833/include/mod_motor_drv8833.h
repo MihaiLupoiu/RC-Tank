@@ -26,4 +26,12 @@ static const uint32_t drv8833_mcpwm_freq = 50000;
 // Feeling adventurous? Nominal 2S LiPo is 7.4V. 7.4/8.4 ~= 88%
 static const uint32_t duty_cycle_max = 88;
 
+typedef struct xChassisMessage
+{
+  TickType_t  timeStamp;
+  int32_t     iMotorA;
+  int32_t     iMotorB;
+  bool        bBrake;
+} Chassis_t;
+
 int mod_motor_drv8833_init(void);
