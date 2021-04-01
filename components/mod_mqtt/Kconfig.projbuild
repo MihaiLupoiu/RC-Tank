@@ -1,0 +1,9 @@
+menu "MQTT Configuration"
+
+    config BROKER_URL
+        string "Broker URL"
+        default "mqtt://mqtt.lupoiu.com"
+        help
+            URL of the broker to connect to
+
+endmenu
