@@ -7,6 +7,8 @@
         "mcpwm_struct.h": "c",
         "mcpwm_reg.h": "c",
         "mod_random.h": "c",
-        "mod_motor_drv8833.h": "c"
+        "mod_motor_drv8833.h": "c",
+        "nvs_flash.h": "c",
+        "string.h": "c"
     }
 }

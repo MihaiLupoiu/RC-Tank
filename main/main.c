@@ -9,6 +9,7 @@
 // Modules
 #include "mod_random.h"
 #include "mod_motor_drv8833.h"
+#include "mod_wifi.h"
 
 void app_main() {
 	ESP_LOGI("MAIN", "Starting PubSub.");
@@ -16,6 +17,7 @@ void app_main() {
 
 	ESP_LOGI("MAIN", "Starting modules:");
 	mod_random_init();
+	mod_wifi_init();
 	mod_motor_drv8833_init();
 
 	ps_msg_t *msg = CALL_INT("mod_random.cmd.get.int", 0, 1000);

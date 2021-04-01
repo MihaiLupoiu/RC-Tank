@@ -121,6 +121,14 @@ CONFIG_PARTITION_TABLE_MD5=y
 # end of Partition Table
 
 #
+# Example Configuration
+#
+CONFIG_ESP_WIFI_SSID="MIWIFI_2G_3E6b"
+CONFIG_ESP_WIFI_PASSWORD="Cookie_25"
+CONFIG_ESP_WIFI_MAX_RECONNECTION_TIME=60
+# end of Example Configuration
+
+#
 # Compiler options
 #
 CONFIG_COMPILER_OPTIMIZATION_DEFAULT=y
