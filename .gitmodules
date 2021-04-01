@@ -1,3 +1,6 @@
 [submodule "submodules/pubsub-c"]
 	path = submodules/pubsub-c
 	url = https://github.com/jaracil/pubsub-c
+[submodule "components/parseutils/src"]
+	path = components/parseutils/src
+	url = https://github.com/jaracil/parseutils
