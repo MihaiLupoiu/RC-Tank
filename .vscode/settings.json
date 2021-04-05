@@ -10,6 +10,7 @@
         "mod_motor_drv8833.h": "c",
         "nvs_flash.h": "c",
         "string.h": "c",
-        "mqtt_client.h": "c"
+        "mqtt_client.h": "c",
+        "parseutils.h": "c"
     }
 }

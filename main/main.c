@@ -11,6 +11,7 @@
 #include "mod_motor_drv8833.h"
 #include "mod_wifi.h"
 #include "mod_mqtt.h"
+#include "mod_mobile_controller.h"
 
 static const char *TAG = "MAIN";
 
@@ -38,6 +39,7 @@ void app_main() {
 	mod_random_init();
 	mod_wifi_init();
 	mod_mqtt_init();
+	mod_mobile_controller_init();
 	mod_motor_drv8833_init();
 
 	ps_msg_t *msg = CALL_INT("mod_random.cmd.get.int", 0, 1000);

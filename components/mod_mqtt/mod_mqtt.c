@@ -36,7 +36,6 @@ static void mqtt_cmd_pub(const ps_msg_t *msg);
 static void mqtt_to_local_bridge(const char *topic, int topic_len, const void *payload, int payloadlen);
 static void local_to_mqtt_bridge(const ps_msg_t *msg);
 
-
 static void mqtt_task() {
 	ps_msg_t *msg = NULL;
     int mqtt_msg_id;
@@ -259,7 +258,7 @@ static void mqtt_to_local_bridge(const char *topic, int topic_len, const void *p
 	local_topic = str_repl(tmp_topic, "/", ".");
 	free(tmp_topic);
     tmp_topic = NULL;
-    ESP_LOGI(MOD_MQTT_NAME, "Message MQTT Topic: %s\n local Topic: %s \n", topic, local_topic);
+    // ESP_LOGI(MOD_MQTT_NAME, "Message MQTT Topic: %s\n local Topic: %s \n", topic, local_topic);
 
 	char *local_payload = NULL;
 	local_payload = strndup(payload, payloadlen);
@@ -275,7 +274,7 @@ static void local_to_mqtt_bridge(const ps_msg_t *msg){
 	mqtt_topic = str_repl(msg->topic, ".", "/");
 
 	// char *err = msg->flags & ERR_TYP ? "error" : "";
-    ESP_LOGI(MOD_MQTT_NAME, "Message Topic: %s\n MQTT Topic: %s \n", msg->topic, mqtt_topic);
+    // ESP_LOGI(MOD_MQTT_NAME, "Message Topic: %s\n MQTT Topic: %s \n", msg->topic, mqtt_topic);
 
     if (IS_STR(msg)) {
         ESP_LOGI(MOD_MQTT_NAME, "Message String: %s\n", msg->str_val);

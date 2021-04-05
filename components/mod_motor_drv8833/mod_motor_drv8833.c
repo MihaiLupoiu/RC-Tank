@@ -94,7 +94,7 @@ static void motor_drv8833_task(void *arg)
 		ESP_LOGI(MOD_MOTOR_NAME, "request from %s ", msg->topic);
 
 		if (ps_has_topic_prefix(msg, MOD_MOTOR_NAME ".cmd.")) {
-			if (ps_has_topic(msg, MOD_MOTOR_NAME ".cmd.set.xChassis") && IS_INT(msg)) {
+			/* if (ps_has_topic(msg, MOD_MOTOR_NAME ".cmd.set.xChassis") && IS_INT(msg)) {
 				ESP_LOGI(MOD_MOTOR_NAME, "request from %s Value: %lld", msg->topic, msg->int_val);
                 // set commands
                 // set_channel(xMotorCommands.bBrake, xMotorCommands.iMotorA, MCPWM_TIMER_0);
@@ -106,6 +106,14 @@ static void motor_drv8833_task(void *arg)
                 // vTaskDelay(5000 / portTICK_RATE_MS);
 
 			}
+            */
+            if (ps_has_topic(msg, MOD_MOTOR_NAME ".cmd.set.xChassis.A") && IS_INT(msg)) {
+				ESP_LOGI(MOD_MOTOR_NAME, "request from %s Value: %lld", msg->topic, msg->int_val);
+                set_channel(false, msg->int_val, MCPWM_TIMER_0);
+			} else if (ps_has_topic(msg, MOD_MOTOR_NAME ".cmd.set.xChassis.B") && IS_INT(msg)) {
+				ESP_LOGI(MOD_MOTOR_NAME, "request from %s Value: %lld", msg->topic, msg->int_val);
+                set_channel(false, msg->int_val, MCPWM_TIMER_1);
+			} 
 		}
 		ps_unref_msg(msg);
 	}
