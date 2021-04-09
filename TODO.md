@@ -6,7 +6,8 @@ ESP32 Tank build with IDF 4.2
 - [x] Working Motor using DRV8833
 - [X] Wifi Connection
 - [X] MQTT Connection
-- [ ] Contorller module connected to MQTT Client for sending movement instructions
+- [X] Contorller module connected to MQTT Client for sending movement instructions
+- [X] Test all components connected.
 
 ## Nice To Have
 
@@ -29,3 +30,4 @@ ESP32 Tank build with IDF 4.2
 ## Improvements 
 - [ ] Improve module creation, more automatic. Certer of truth for the status of them.
 - [ ] Improve module name usage internally (Macros or header file available for everyone)
+- [ ] Time reaction to changes in motor driver.
