@@ -1,6 +1,10 @@
-# RC Tank
+# Tunke |
 
-ESP32 Tank build with IDF 4.2 
+Tunke I is one of is kind and first of it's generation. 
+
+It's a prototype rc controlled tank via MQTT and it's build using an ESP32 as an MCU. 
+
+ESP32 build toolckhain is ESP IDF 4.2. 
 
 ## How to build
 
