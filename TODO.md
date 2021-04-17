@@ -31,3 +31,5 @@ ESP32 Tank build with IDF 4.2
 - [ ] Improve module creation, more automatic. Certer of truth for the status of them.
 - [ ] Improve module name usage internally (Macros or header file available for everyone)
 - [ ] Time reaction to changes in motor driver.
+- [ ] Unit Testing in ESP32 (https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/unit-tests.html)
+- [ ] 

@@ -1,6 +1,7 @@
-# Tunke I
+![Trunke Icon](./docs/tank_logo.png)
+# Trunke I
 
-Tunke I is one of is kind and first of it's generation. 
+Trunke I is one of is kind and first of it's generation. 
 
 It's a prototype rc controlled tank via MQTT and it's build using an ESP32 as an MCU. 
 
@@ -15,6 +16,10 @@ Select the instructions depending on Espressif chip installed on your developmen
 - [ESP32 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/stable/get-started/index.html)
 - [ESP32-S2 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/get-started/index.html)
 
+
+## Architecture
+
+![Architecture](./docs/tank_rc.png)
 
 ## Troubleshooting
 
