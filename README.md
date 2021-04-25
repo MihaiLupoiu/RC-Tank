@@ -33,6 +33,7 @@ Select the instructions depending on Espressif chip installed on your developmen
 
 ### Power
 Power [TP5100](https://es.aliexpress.com/item/4000130857356.html?spm=a2g0s.9042311.0.0.2f0963c0jgIbUb)
+
 ![power](./docs/power.jpg)
 
 ### Motor driver and ESP32
