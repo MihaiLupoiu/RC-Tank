@@ -42,7 +42,7 @@ Select the instructions depending on Espressif chip installed on your developmen
 
 ![Trunke](./docs/image1.jpg)
 
-## Demo
+## Demo Video
 
 [![Demo](./docs/image2.jpg)](https://youtu.be/6UdqpzVhmrY)
 
