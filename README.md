@@ -40,7 +40,7 @@ Select the instructions depending on Espressif chip installed on your developmen
 
 ## Demo
 
-[![Demo](./docs/image2.jpg)](./docs/demo.mp4)
+[![Demo](./docs/image2.jpg)](https://youtu.be/6UdqpzVhmrY)
 
 ## Troubleshooting
 
