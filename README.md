@@ -23,27 +23,34 @@ Select the instructions depending on Espressif chip installed on your developmen
 ### Circuit Diagram
 ![CircuitDiagram](./docs/CircuitDiagram.png)
 
-
 ### Starting flow diagram
 ![startingMessagesDiagram](./docs/startingMessagesDiagram.png)
 
 ### Processing a message flow diagram
 ![movementMessagesDiagram](./docs/movementMessagesDiagram.png)
 
-## Componentes
+## Components
 
 ### Power
+Power [TP5100](https://es.aliexpress.com/item/4000130857356.html?spm=a2g0s.9042311.0.0.2f0963c0jgIbUb)
 ![power](./docs/power.jpg)
 
 ### Motor driver and ESP32
+Power [DRV8833](https://es.aliexpress.com/item/32752397186.html?spm=a2g0s.9042311.0.0.2f0963c0jgIbUb)
+
+| GPIOs ESP32 | DRV8833 Input |
+| ----------- | ------------- |
+| 23 | IN1 |
+| 19 | IN2 |
+| 18 | IN3 |
+| 05 | IN4 |
+
 ![power](./docs/mcu.jpg)
 
 ### Build
-
 ![Trunke](./docs/image1.jpg)
 
-## Demo Video
-
+### Demo Video
 [![Demo](./docs/image2.jpg)](https://youtu.be/6UdqpzVhmrY)
 
 ## Troubleshooting
