@@ -20,6 +20,10 @@ Select the instructions depending on Espressif chip installed on your developmen
 ### High level design
 ![Architecture](./docs/tank_rc.png)
 
+### Circuit Diagram
+![CircuitDiagram](./docs/CircuitDiagram.png)
+
+
 ### Starting flow diagram
 ![startingMessagesDiagram](./docs/startingMessagesDiagram.png)
 
