@@ -1,11 +1,9 @@
 ![Trunke Icon](./docs/tank_logo.png)
 # Trunke I
 
-Trunki is one of its kind and first of its generation.
+Trunke is one of its kind and first of its generation.
 
-It's a prototype rc controlled tank via MQTT and it's build using an ESP32 as an MCU. 
-
-ESP32 build toolckhain is ESP IDF 4.2. 
+It's a prototype rc controlled tank via MQTT and it's build using the ESP32 using ESP IDF 4.2 toolckhain. 
 
 ## How to build
 
@@ -19,7 +17,30 @@ Select the instructions depending on Espressif chip installed on your developmen
 
 ## Architecture
 
+### High level design
 ![Architecture](./docs/tank_rc.png)
+
+### Starting flow diagram
+![startingMessagesDiagram](./docs/startingMessagesDiagram.png)
+
+### Processing a message flow diagram
+![movementMessagesDiagram](./docs/movementMessagesDiagram.png)
+
+## Componentes
+
+### Power
+![power](./docs/power.jpg)
+
+### Motor driver and ESP32
+![power](./docs/mcu.jpg)
+
+### Build
+
+![Trunke](./docs/image1.jpg)
+
+## Demo
+
+[![Demo](./docs/image2.jpg)](./docs/demo.mp4)
 
 ## Troubleshooting
 
