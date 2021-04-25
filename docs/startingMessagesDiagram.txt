@@ -1,0 +1,77 @@
+@startuml
+
+title "Messages - Sequence Diagram Starting"
+
+actor User
+boundary "Mobile Controller" as mobile
+entity "MQTT Server" as mqtt_server
+
+User -> mobile: starts App
+mobile -> mqtt_server: connects to
+main -> pub_sub: init
+note right
+Starting pubsub library.
+<code>
+main() {
+	ESP_LOGI(TAG, "Starting PubSub.");
+	ps_init();
+	...
+}
+</code>
+end note
+
+main -> random: init
+random -> pub_sub: subscribe "random.cmd"
+
+
+main -> wifi: init
+wifi -> pub_sub: subscribe "wifi.cmd"
+wifi -> wifi: init nvs
+wifi -> wifi: init  wifi_init
+wifi -> wifi: init  event_handler process startup
+wifi -> pub_sub: pubish sticky "wifi.evt.wifi.stat:0" 
+note right: Wifi stack starting
+
+main -> mqtt: init
+mqtt -> pub_sub: subscribe "mqtt.cmd"
+mqtt -> pub_sub: subscribe "wifi.evt.wifi.stat"
+pub_sub -> mqtt: pubish sticky "wifi.evt.wifi.stat:0" 
+mqtt -> mqtt: wait for wifi to start
+
+wifi -> pub_sub: pubish sticky "wifi.evt.wifi.stat:1" 
+note right
+Once Event IP_EVENT && IP_EVENT_STA_GOT_IP is set. 
+Send Wifi status for dependencies to know. Enable (1) Disconected (0)
+end note
+pub_sub -> mqtt: pubish sticky "wifi.evt.wifi.stat:1" 
+mqtt -> mqtt: init  mqtt_start_client
+mqtt -> mqtt: init  mqtt_event_handler process startup
+mqtt -> pub_sub: pubish sticky "mqtt.evt.mqtt.stat:0" 
+note right: MQTT client starting
+
+
+main -> mobile_controller: init
+mobile_controller -> pub_sub: subscribe "mobile_controller.cmd"
+mobile_controller -> pub_sub: subscribe "mqtt.evt.mqtt.stat"
+mobile_controller -> pub_sub: subscribe "tank.1"
+note right: Default topic name for getting messages from MQTT
+mobile_controller -> mobile_controller: wait for mqtt to start
+mqtt -> mqtt_server: connected to 
+mqtt -> pub_sub: pubish sticky "mqtt.evt.mqtt.stat:1" 
+note right: MQTT client started
+pub_sub -> mobile_controller: pubish sticky "mqtt.evt.mqtt.stat:1" 
+
+mobile_controller -> mobile_controller: init mobile_controller
+mobile_controller -> pub_sub: publish "mqtt.cmd.mqtt.sub:tank/1/# "
+note right: Mobile controller will published tank.1.left and tank.1.right joystick
+mobile_controller -> mobile_controller: wait controller messages
+
+
+main -> motor_drv8833: init
+motor_drv8833 -> pub_sub: subscribe "motor_drv8833.cmd"
+
+motor_drv8833 -> motor_drv8833: init mcpwm & configure GPIOs
+note right: Start PWM configuration for motors.
+
+
+@enduml

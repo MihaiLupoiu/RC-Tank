@@ -1,0 +1,38 @@
+@startuml
+
+title "Messages - Sequence Diagram Movement"
+
+actor User
+boundary "Mobile Controller" as mobile
+entity "MQTT Server" as mqtt_server
+
+User -> mobile: starts App
+mobile -> mqtt_server: connects to
+
+
+mobile -> mqtt_server: publish tank/1/left 180 50
+mobile -> mqtt_server: publish  tank/1/right 180 50
+note right
+Mobile controller will published left and/or right joystick topic
+First value angle (0-360º) second value power (0-100%).
+end note
+pub_sub -> mqtt
+
+mqtt_server -> mqtt: publish tank/1/left 180 50
+mqtt_server -> mqtt: publish  tank/1/right 180 50
+mqtt -> pub_sub: "publish tank.1.left:180 50"
+mqtt -> pub_sub: "publish tank.1.right: 180 50"
+
+pub_sub -> mobile_controller: "publish tank.1.left:180 50"
+pub_sub -> mobile_controller: "publish tank.1.right: 180 50"
+
+mobile_controller -> pub_sub: "publish motor_drv8833.cmd.set.xChassis.A:50"
+mobile_controller -> pub_sub: "publish motor_drv8833.cmd.set.xChassis.B:50"
+
+pub_sub -> motor_drv8833: "publish motor_drv8833.cmd.set.xChassis.A:50"
+pub_sub -> motor_drv8833: "publish motor_drv8833.cmd.set.xChassis.B:50"
+
+motor_drv8833 -> PWM: 50% power to motor A
+motor_drv8833 -> PWM: 50% power to motor B
+
+@enduml

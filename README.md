@@ -40,3 +40,5 @@ We will get back to you as soon as possible.
 ## References
 * [PubSub library](https://github.com/jaracil/pubsub-c)
 * [Motor Driver drv8833 inspiration](https://github.com/Roger-random/ESP32Tests/tree/4dea2aafa04f983b8d4818b09d49e5d53878b2e6/FreeRTOS_Play/src)
+* [Drawio for Schemas](https://www.draw.io/)
+* [PlantText for sequence diagrams](https://www.planttext.com/)

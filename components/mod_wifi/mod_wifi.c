@@ -126,7 +126,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         xEventGroupSetBits(ctx->wifi_event_group, WIFI_CONNECTED_BIT);
 		ctx->wifi_state = 1;
     }
-        PUB_INT_FL(MOD_WIFI_NAME ".evt.wifi.stat", ctx->wifi_state, FL_STICKY);
+    PUB_INT_FL(MOD_WIFI_NAME ".evt.wifi.stat", ctx->wifi_state, FL_STICKY);
 }
 
 
