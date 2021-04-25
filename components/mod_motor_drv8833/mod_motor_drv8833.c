@@ -30,7 +30,8 @@ int mod_motor_drv8833_init(void){
 
 static void mcpwm_example_gpio_initialize(void)
 {
-    printf("initializing mcpwm gpio...\n");
+    ESP_LOGI(MOD_MOTOR_NAME, "initializing mcpwm gpio...");
+
     mcpwm_gpio_init(MCPWM_UNIT_0, MCPWM0A, drv8833_ain1);
     mcpwm_gpio_init(MCPWM_UNIT_0, MCPWM0B, drv8833_ain2);
     mcpwm_gpio_init(MCPWM_UNIT_0, MCPWM1A, drv8833_bin1);
@@ -39,25 +40,14 @@ static void mcpwm_example_gpio_initialize(void)
 
 void set_channel(bool bBrake, int32_t iSpeed, mcpwm_timer_t timer)
 {
-    printf("speed %d\n", iSpeed);
-
-    if (bBrake)
-    {
-        mcpwm_set_duty(drv8833_mcpwm_unit, timer, MCPWM_GEN_A, 100);
-        mcpwm_set_duty(drv8833_mcpwm_unit, timer, MCPWM_GEN_B, 100);
-    }
-    else if (iSpeed > 0)
-    {
+    ESP_LOGD(MOD_MOTOR_NAME, "Configuring Initial Parameters of mcpwm...");
+    if (iSpeed > 0) {
         mcpwm_set_duty(drv8833_mcpwm_unit, timer, MCPWM_GEN_A, abs(iSpeed) * duty_cycle_max / 100);
         mcpwm_set_duty(drv8833_mcpwm_unit, timer, MCPWM_GEN_B, 0);
-    }
-    else if (iSpeed < 0)
-    {
+    } else if (iSpeed < 0) {
         mcpwm_set_duty(drv8833_mcpwm_unit, timer, MCPWM_GEN_A, 0);
         mcpwm_set_duty(drv8833_mcpwm_unit, timer, MCPWM_GEN_B, abs(iSpeed) * duty_cycle_max / 100);
-    }
-    else
-    {
+    } else {
         mcpwm_set_duty(drv8833_mcpwm_unit, timer, MCPWM_GEN_A, 0);
         mcpwm_set_duty(drv8833_mcpwm_unit, timer, MCPWM_GEN_B, 0);
     }
@@ -72,7 +62,8 @@ static void motor_drv8833_task(void *arg)
     mcpwm_example_gpio_initialize();
 
     //2. initial mcpwm configuration
-    printf("Configuring Initial Parameters of mcpwm...\n");
+    ESP_LOGI(MOD_MOTOR_NAME, "Configuring Initial Parameters of mcpwm...");
+
     mcpwm_config_t pwm_config;
     pwm_config.frequency = drv8833_mcpwm_freq; // 1000;    //frequency = 1000Hz,
     pwm_config.cmpr_a = 0;                     //duty cycle of PWMxA = 0
@@ -90,9 +81,7 @@ static void motor_drv8833_task(void *arg)
 		if (msg == NULL) {
 			continue;
 		}
-
-		ESP_LOGI(MOD_MOTOR_NAME, "request from %s ", msg->topic);
-
+        
 		if (ps_has_topic_prefix(msg, MOD_MOTOR_NAME ".cmd.")) {
 			/* if (ps_has_topic(msg, MOD_MOTOR_NAME ".cmd.set.xChassis") && IS_INT(msg)) {
 				ESP_LOGI(MOD_MOTOR_NAME, "request from %s Value: %lld", msg->topic, msg->int_val);
@@ -108,13 +97,17 @@ static void motor_drv8833_task(void *arg)
 			}
             */
             if (ps_has_topic(msg, MOD_MOTOR_NAME ".cmd.set.xChassis.A") && IS_INT(msg)) {
-				ESP_LOGI(MOD_MOTOR_NAME, "request from %s Value: %lld", msg->topic, msg->int_val);
+				ESP_LOGD(MOD_MOTOR_NAME, "request from %s Value: %lld", msg->topic, msg->int_val);
                 set_channel(false, msg->int_val, MCPWM_TIMER_0);
 			} else if (ps_has_topic(msg, MOD_MOTOR_NAME ".cmd.set.xChassis.B") && IS_INT(msg)) {
-				ESP_LOGI(MOD_MOTOR_NAME, "request from %s Value: %lld", msg->topic, msg->int_val);
+				ESP_LOGD(MOD_MOTOR_NAME, "request from %s Value: %lld", msg->topic, msg->int_val);
                 set_channel(false, msg->int_val, MCPWM_TIMER_1);
-			} 
-		}
+			} else {
+                ESP_LOGI(MOD_MOTOR_NAME, "request from %s ", msg->topic);
+            }
+		} else {
+            ESP_LOGI(MOD_MOTOR_NAME, "request from %s ", msg->topic);
+        }
 		ps_unref_msg(msg);
 	}
 }

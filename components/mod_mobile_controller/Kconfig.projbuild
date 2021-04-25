@@ -1,0 +1,9 @@
+menu "Mobile Controller Configuration"
+
+    config ESP_MOBILE_CONTROLLER_MQTT_TOPIC
+        string "Mobile Controller MQTT topic"
+        default "tank.1"
+        help
+            Topic used in the Mobile Controller application to send commands.
+
+endmenu

@@ -13,6 +13,8 @@
 
 #define MOD_MQTT_NAME "mod_mqtt"
 
+#define MOBILE_CONTROLLER_MQTT_TOPIC	CONFIG_ESP_MOBILE_CONTROLLER_MQTT_TOPIC
+
 typedef struct {
 	uint8_t state;
 	ps_subscriber_t *sub;
@@ -26,7 +28,7 @@ void mobile_controller_process(ps_msg_t *msg);
 
 // Internal helper funtions
 static int process_speed(char *raw_string);
-
+static void stop_motors();
 
 static void mobile_controller_task() {
 	ps_msg_t *msg = NULL;
@@ -37,7 +39,7 @@ static void mobile_controller_task() {
 			continue;
 		}
 
-		ESP_LOGI(MOD_MOBILE_CONTROLLER_NAME, "request from %s received.", msg->topic);
+		ESP_LOGD(MOD_MOBILE_CONTROLLER_NAME, "request from %s received.", msg->topic);
 
 		if (ps_has_topic_prefix(msg, MOD_MQTT_NAME ".evt.")) {
 			if (ps_has_topic(msg, MOD_MQTT_NAME ".evt.mqtt.stat") && IS_INT(msg)) {
@@ -46,6 +48,7 @@ static void mobile_controller_task() {
 					mobile_controller_start_client();
 				} else {
 					ESP_LOGI(MOD_MOBILE_CONTROLLER_NAME, "MQTT disconected.");
+					stop_motors();
 				}
 			}
 		}
@@ -59,7 +62,7 @@ static void mobile_controller_task() {
 			}
 		}
 
-		if (ps_has_topic_prefix(msg, "tank.1.") && IS_STR(msg)) {
+		if (ps_has_topic_prefix(msg, MOBILE_CONTROLLER_MQTT_TOPIC ".") && IS_STR(msg)) {
 			mobile_controller_process(msg);
 		}
 
@@ -91,14 +94,14 @@ void mobile_controller_start_client() {
 void mobile_controller_process(ps_msg_t *msg) {
 	if (ps_has_topic(msg, "tank.1.right")) {
 		int speed = process_speed(msg->str_val);
-		ESP_LOGI(MOD_MOBILE_CONTROLLER_NAME, "request from %s for mobile_controller string. Value: %s -> speed: %d",
+		ESP_LOGD(MOD_MOBILE_CONTROLLER_NAME, "request from %s for mobile_controller string. Value: %s -> speed: %d",
 		         msg->topic, msg->str_val, speed);
 
 		PUB_INT("mod_motor_drv8833.cmd.set.xChassis.B", process_speed(msg->str_val));
 
 	} else if (ps_has_topic(msg, "tank.1.left")) {
 		int speed = process_speed(msg->str_val);
-		ESP_LOGI(MOD_MOBILE_CONTROLLER_NAME, "request from %s for mobile_controller string. Value: %s-> speed: %d",
+		ESP_LOGD(MOD_MOBILE_CONTROLLER_NAME, "request from %s for mobile_controller string. Value: %s-> speed: %d",
 		         msg->topic, msg->str_val, speed);
 		PUB_INT("mod_motor_drv8833.cmd.set.xChassis.A", process_speed(msg->str_val));
 	}
@@ -125,4 +128,9 @@ static int process_speed(char *raw_string) {
 		return (power * -1);
 	}
 	return power;
+}
+
+static void stop_motors(){
+	PUB_INT("mod_motor_drv8833.cmd.set.xChassis.A", 0);
+	PUB_INT("mod_motor_drv8833.cmd.set.xChassis.B", 0);
 }

@@ -26,6 +26,7 @@ ESP32 Tank build with IDF 4.2
 - [ ] Module basic structure. name, status, autostart, retray  
 - [ ] System Configuration Module for storing and loading internal configuraiton
 - [ ] Configuration Managment from exterior
+- [ ] Know when it is online and offline. Periodic ping to a server.
 
 ## Improvements 
 - [ ] Improve module creation, more automatic. Certer of truth for the status of them.

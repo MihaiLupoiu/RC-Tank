@@ -124,58 +124,32 @@ static void mqtt_start_client(void) {
 static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data) {
 	ESP_LOGD(MOD_MQTT_NAME, "Event dispatched from event loop base=%s, event_id=%d", base, event_id);
 	esp_mqtt_event_handle_t event = event_data;
-	esp_mqtt_client_handle_t client = event->client;
-	int msg_id;
 	switch ((esp_mqtt_event_id_t) event_id) {
 	case MQTT_EVENT_CONNECTED:
-		ESP_LOGI(MOD_MQTT_NAME, "MQTT_EVENT_CONNECTED");
+		ESP_LOGD(MOD_MQTT_NAME, "MQTT_EVENT_CONNECTED");
+		// TODO: Make mqtt header for components know meaning of the status.
         PUB_INT_FL(MOD_MQTT_NAME ".evt.mqtt.stat", 1, FL_STICKY);
-
-		msg_id = esp_mqtt_client_publish(client, "/topic/qos1", "data_3", 0, 1, 0);
-		ESP_LOGI(MOD_MQTT_NAME, "sent publish successful, msg_id=%d", msg_id);
-
-		// msg_id = esp_mqtt_client_subscribe(client, "/topic/qos0", 0);
-		// ESP_LOGI(MOD_MQTT_NAME, "sent subscribe successful, msg_id=%d", msg_id);
-        PUB_STR(MOD_MQTT_NAME ".cmd.mqtt.sub", "/topic/qos0");
-
-		// msg_id = esp_mqtt_client_subscribe(client, "/topic/qos1", 1);
-		// ESP_LOGI(MOD_MQTT_NAME, "sent subscribe successful, msg_id=%d", msg_id);
-        PUB_STR(MOD_MQTT_NAME ".cmd.mqtt.sub", "/topic/qos1");
-
-		// msg_id = esp_mqtt_client_unsubscribe(client, "/topic/qos1");
-		// ESP_LOGI(MOD_MQTT_NAME, "sent unsubscribe successful, msg_id=%d", msg_id);
-        PUB_STR(MOD_MQTT_NAME ".cmd.mqtt.usub", "/topic/qos1");
-
 		break;
 	case MQTT_EVENT_DISCONNECTED:
-		ESP_LOGI(MOD_MQTT_NAME, "MQTT_EVENT_DISCONNECTED");
+		ESP_LOGD(MOD_MQTT_NAME, "MQTT_EVENT_DISCONNECTED");
         PUB_INT_FL(MOD_MQTT_NAME ".evt.mqtt.stat", 0, FL_STICKY);
 		break;
 
 	case MQTT_EVENT_SUBSCRIBED:
-		ESP_LOGI(MOD_MQTT_NAME, "MQTT_EVENT_SUBSCRIBED, msg_id=%d", event->msg_id);
-
-		// msg_id = esp_mqtt_client_publish(client, "/topic/qos0", "data", 0, 0, 0);
-		// ESP_LOGI(MOD_MQTT_NAME, "sent publish successful, msg_id=%d", msg_id);
-        PUB_STR(MOD_MQTT_NAME ".cmd.pub./topic/qos0", "data");
-
+		ESP_LOGD(MOD_MQTT_NAME, "MQTT_EVENT_SUBSCRIBED, msg_id=%d", event->msg_id);
 		break;
 	case MQTT_EVENT_UNSUBSCRIBED:
-		ESP_LOGI(MOD_MQTT_NAME, "MQTT_EVENT_UNSUBSCRIBED, msg_id=%d", event->msg_id);
+		ESP_LOGD(MOD_MQTT_NAME, "MQTT_EVENT_UNSUBSCRIBED, msg_id=%d", event->msg_id);
 		break;
 	case MQTT_EVENT_PUBLISHED:
-		ESP_LOGI(MOD_MQTT_NAME, "MQTT_EVENT_PUBLISHED, msg_id=%d", event->msg_id);
+		ESP_LOGD(MOD_MQTT_NAME, "MQTT_EVENT_PUBLISHED, msg_id=%d", event->msg_id);
 		break;
 	case MQTT_EVENT_DATA:
-		ESP_LOGI(MOD_MQTT_NAME, "MQTT_EVENT_DATA");
-		printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
-		printf("DATA=%.*s\r\n", event->data_len, event->data);
-
+		ESP_LOGD(MOD_MQTT_NAME, "MQTT_EVENT_DATA");
         mqtt_to_local_bridge(event->topic,event->topic_len, event->data, event->data_len);
-
 		break;
 	case MQTT_EVENT_ERROR:
-		ESP_LOGI(MOD_MQTT_NAME, "MQTT_EVENT_ERROR");
+		ESP_LOGD(MOD_MQTT_NAME, "MQTT_EVENT_ERROR");
 
 		/*
 		if (event->error_handle->error_type == MQTT_ERROR_TYPE_ESP_TLS) {
@@ -199,11 +173,7 @@ static void log_error_if_nonzero(const char *message, int error_code){
         ESP_LOGE(MOD_MQTT_NAME, "Last error %s: 0x%x", message, error_code);
     }
 }
-
 */
-
-
-
 
 static void mqtt_cmd_pub(const ps_msg_t *msg) {
     // MOD_MQTT_NAME.cmd.pub.sys/cmd/asdf:msg_data
@@ -258,7 +228,7 @@ static void mqtt_to_local_bridge(const char *topic, int topic_len, const void *p
 	local_topic = str_repl(tmp_topic, "/", ".");
 	free(tmp_topic);
     tmp_topic = NULL;
-    // ESP_LOGI(MOD_MQTT_NAME, "Message MQTT Topic: %s\n local Topic: %s \n", topic, local_topic);
+    ESP_LOGD(MOD_MQTT_NAME, "Message MQTT Topic: %s\n local Topic: %s \n", topic, local_topic);
 
 	char *local_payload = NULL;
 	local_payload = strndup(payload, payloadlen);
@@ -272,9 +242,7 @@ static void local_to_mqtt_bridge(const ps_msg_t *msg){
 	char *mqtt_topic = NULL;
 	
 	mqtt_topic = str_repl(msg->topic, ".", "/");
-
-	// char *err = msg->flags & ERR_TYP ? "error" : "";
-    // ESP_LOGI(MOD_MQTT_NAME, "Message Topic: %s\n MQTT Topic: %s \n", msg->topic, mqtt_topic);
+	ESP_LOGD(MOD_MQTT_NAME, "Message Topic: %s\n MQTT Topic: %s \n", msg->topic, mqtt_topic);
 
     if (IS_STR(msg)) {
         ESP_LOGI(MOD_MQTT_NAME, "Message String: %s\n", msg->str_val);
