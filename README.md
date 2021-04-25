@@ -1,7 +1,7 @@
 ![Trunke Icon](./docs/tank_logo.png)
 # Trunke I
 
-Trunke I is one of is kind and first of it's generation. 
+Trunki is one of its kind and first of its generation.
 
 It's a prototype rc controlled tank via MQTT and it's build using an ESP32 as an MCU. 
 
