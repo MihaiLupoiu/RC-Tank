@@ -48,6 +48,11 @@ Power [DRV8833](https://es.aliexpress.com/item/32752397186.html?spm=a2g0s.904231
 
 ![power](./docs/mcu.jpg)
 
+### Controller
+[Link Google Play Store](https://play.google.com/store/apps/details?id=mqtt_controller.application)
+
+![Mobile controller](./docs/mobile_controller.jpg)
+
 ### Build
 ![Trunke](./docs/image1.jpg)
 
